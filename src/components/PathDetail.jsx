@@ -32,7 +32,7 @@ export default function PathDetail({ path, prep, onBack, onOpenProgram }) {
             >
               <span
                 style={{
-                  background: `linear-gradient(120deg, ${path.color[0]}, ${path.color[1]})`,
+                  backgroundImage: `linear-gradient(120deg, ${path.color[0]}, ${path.color[1]})`,
                   WebkitBackgroundClip: 'text',
                   backgroundClip: 'text',
                   color: 'transparent'

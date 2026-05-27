@@ -25,7 +25,7 @@ export default function ProgramsPage({ onBack, initialTrack }) {
           <h1 style={{ marginTop: 18, fontSize: 'clamp(34px, 5vw, 60px)' }}>
             <span
               style={{
-                background: `linear-gradient(120deg, ${active.accent[0]}, ${active.accent[1]})`,
+                backgroundImage: `linear-gradient(120deg, ${active.accent[0]}, ${active.accent[1]})`,
                 WebkitBackgroundClip: 'text',
                 backgroundClip: 'text',
                 color: 'transparent'
