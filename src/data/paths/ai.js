@@ -42,7 +42,7 @@ print(user.shape)   # (3,)
 print(user[1])      # 0.18 → low engagement
 \`\`\`
 
-The model never sees "Lokesh". It only ever sees vectors like this. Every dataset of N users is a matrix of shape \`(N, 3)\` — N rows stacked together.`
+The model never sees "Lokesh". It only ever sees vectors like this. Every dataset of N users is a matrix of shape \`(N, 3)\` — N rows stacked together.`,
             },
             {
               title: 'Dot product = similarity score',

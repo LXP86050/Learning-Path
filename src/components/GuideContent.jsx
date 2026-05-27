@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import ExampleCard from './ExampleCard.jsx'
+import TaskCard from './TaskCard.jsx'
 
 export default function GuideContent({ chapters, accent }) {
   return (
@@ -59,6 +60,25 @@ export default function GuideContent({ chapters, accent }) {
                     <ExampleCard key={ei} example={ex} index={ei} accent={accent} />
                   ))}
                 </div>
+
+                {sec.tasks && sec.tasks.length > 0 && (
+                  <div className="tasks-block">
+                    <div className="tasks-header">
+                      <span
+                        className="tasks-pill"
+                        style={{ background: `linear-gradient(135deg, ${accent[0]}, ${accent[1]})` }}
+                      >
+                        Your turn
+                      </span>
+                      <span className="tasks-sub">Practice tasks · solutions inside the button</span>
+                    </div>
+                    <div className="tasks">
+                      {sec.tasks.map((t, ti) => (
+                        <TaskCard key={ti} task={t} index={ti} accent={accent} />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </article>
             ))}
           </div>

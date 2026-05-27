@@ -723,6 +723,207 @@ h3 { font-size: 20px; font-weight: 600; }
   font-style: italic;
 }
 
+/* ---------- Practice tasks block ---------- */
+.tasks-block {
+  margin-top: 24px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface) 60%, transparent);
+  position: relative;
+  overflow: hidden;
+}
+.tasks-block::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  opacity: 0.6;
+}
+.tasks-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.tasks-pill {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: white;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.tasks-sub {
+  font-size: 13px;
+  color: var(--text-soft);
+}
+.tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.task {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-soft);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: border-color var(--transition);
+}
+.task.open { border-color: var(--border-strong); }
+.task-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.task-num {
+  flex-shrink: 0;
+  width: 38px;
+  height: 30px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+.task-titles { display: flex; flex-direction: column; gap: 2px; }
+.task-tag {
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.task-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.task-prompt {
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--text);
+}
+.task-prompt p { margin: 0 0 10px; }
+.task-prompt p:last-child { margin-bottom: 0; }
+.task-prompt code {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  background: var(--surface-strong);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+.task-prompt pre {
+  margin: 10px 0;
+  padding: 14px 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+.task-prompt pre code { background: transparent; padding: 0; }
+
+/* The "solution" disclosure — a button (header) + revealed body, framed together. */
+.task-solution {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+  transition: border-color var(--transition);
+}
+.task-solution-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 18px;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.task-solution-trigger:hover { background: var(--surface-strong); }
+.task-solution-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.task-solution-trigger-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.task-solution-chev {
+  color: var(--text-soft);
+  display: inline-flex;
+}
+.task-solution-body {
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+.task-solution-inner {
+  padding: 18px 20px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text);
+}
+.task-solution-tag {
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 10px;
+}
+.task-solution-inner p { margin: 0 0 10px; }
+.task-solution-inner p:last-child { margin-bottom: 0; }
+.task-solution-inner code {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  background: var(--surface-strong);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+.task-solution-inner pre {
+  margin: 10px 0;
+  padding: 14px 16px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+.task-solution-inner pre code { background: transparent; padding: 0; }
+.task-solution-inner ul, .task-solution-inner ol {
+  margin: 8px 0;
+  padding-left: 22px;
+}
+.task-solution-inner li { margin-bottom: 4px; }
+.task-solution-inner strong { font-weight: 700; color: var(--text); }
+
 /* ---------- Interview prep cards (new disclosure layout) ---------- */
 .iv-grid {
   margin-top: 36px;

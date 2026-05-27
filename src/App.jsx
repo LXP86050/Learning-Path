@@ -9,30 +9,53 @@ import ProgramsPage from './components/ProgramsPage.jsx'
 import { paths, interviewPrep } from './data/index.js'
 
 function parseHash() {
-  if (typeof window === 'undefined') return { route: 'home' }
+  if (typeof window === 'undefined') return { route: 'home', id: null }
   const h = window.location.hash.replace(/^#\/?/, '')
   if (h.startsWith('path/')) return { route: 'path', id: h.slice(5) }
   if (h.startsWith('programs/')) return { route: 'programs', id: h.slice(9) }
   if (h === 'programs') return { route: 'programs', id: null }
-  return { route: 'home' }
+  return { route: 'home', id: null }
+}
+
+function hashFor(route, id) {
+  if (route === 'path') return `#/path/${id}`
+  if (route === 'programs') return id ? `#/programs/${id}` : '#/programs'
+  return ''
 }
 
 export default function App() {
   const [{ route, id }, setRoute] = useState(parseHash())
 
   useEffect(() => {
-    const onHash = () => setRoute(parseHash())
-    window.addEventListener('hashchange', onHash)
-    return () => window.removeEventListener('hashchange', onHash)
+    const onPop = () => setRoute(parseHash())
+    window.addEventListener('hashchange', onPop)
+    window.addEventListener('popstate', onPop)
+    return () => {
+      window.removeEventListener('hashchange', onPop)
+      window.removeEventListener('popstate', onPop)
+    }
   }, [])
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' })
   }, [route, id])
 
-  const goHome = () => { window.location.hash = '' }
-  const goPath = (pid) => { window.location.hash = `/path/${pid}` }
-  const goPrograms = (pid) => { window.location.hash = pid ? `/programs/${pid}` : '/programs' }
+  // Update state directly + sync the URL via history. Don't rely on the
+  // hashchange event firing — some browsers skip it when the hash is set to
+  // empty, and a no-op nav from home → home shouldn't be a dead click.
+  const navigate = (next) => {
+    const targetHash = hashFor(next.route, next.id)
+    const currentHash = window.location.hash || ''
+    if (targetHash !== currentHash) {
+      const url = targetHash || window.location.pathname + window.location.search
+      history.pushState(null, '', url)
+    }
+    setRoute({ route: next.route, id: next.id ?? null })
+  }
+
+  const goHome = () => navigate({ route: 'home', id: null })
+  const goPath = (pid) => navigate({ route: 'path', id: pid })
+  const goPrograms = (pid) => navigate({ route: 'programs', id: pid || null })
   const scrollToPaths = () => {
     document.getElementById('paths')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
