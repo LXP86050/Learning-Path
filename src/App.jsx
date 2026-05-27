@@ -66,15 +66,16 @@ export default function App() {
       </header>
 
       <AnimatePresence mode="wait">
-        {route === 'home' && (
-          <motion.main
-            key="home"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.35 }}
-          >
-            <Hero onStart={scrollToPaths} onPrograms={() => goPrograms(null)} />
+        <motion.main
+          key={`${route}-${id ?? ''}`}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {route === 'home' && (
+            <>
+              <Hero onStart={scrollToPaths} onPrograms={() => goPrograms(null)} />
 
             <section id="paths" className="section">
               <div className="container">
@@ -157,52 +158,31 @@ export default function App() {
                 </div>
               </div>
             </section>
-          </motion.main>
-        )}
+            </>
+          )}
 
-        {route === 'path' && activePath && (
-          <motion.main
-            key={`path-${activePath.id}`}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.4 }}
-          >
+          {route === 'path' && activePath && (
             <PathDetail
               path={activePath}
               prep={interviewPrep[activePath.id]}
               onBack={goHome}
               onOpenProgram={goPrograms}
             />
-          </motion.main>
-        )}
+          )}
 
-        {route === 'path' && !activePath && (
-          <motion.main
-            key="not-found"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="container"
-            style={{ padding: '80px 24px' }}
-          >
-            <h2>Path not found</h2>
-            <p className="lede" style={{ marginTop: 12 }}>
-              That path doesn\'t exist (yet). <button className="btn btn-ghost" onClick={goHome} style={{ marginLeft: 8 }}>Back to all paths</button>
-            </p>
-          </motion.main>
-        )}
+          {route === 'path' && !activePath && (
+            <div className="container" style={{ padding: '80px 24px' }}>
+              <h2>Path not found</h2>
+              <p className="lede" style={{ marginTop: 12 }}>
+                That path doesn't exist (yet). <button className="btn btn-ghost" onClick={goHome} style={{ marginLeft: 8 }}>Back to all paths</button>
+              </p>
+            </div>
+          )}
 
-        {route === 'programs' && (
-          <motion.main
-            key={`programs-${id || 'all'}`}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.4 }}
-          >
+          {route === 'programs' && (
             <ProgramsPage onBack={goHome} initialTrack={id} />
-          </motion.main>
-        )}
+          )}
+        </motion.main>
       </AnimatePresence>
     </div>
   )
