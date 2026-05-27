@@ -72,7 +72,7 @@ export default function App() {
           <div className="brand" onClick={goHome} role="link" tabIndex={0}
                onKeyDown={(e) => { if (e.key === 'Enter') goHome() }}>
             <div className="brand-mark">L</div>
-            <div className="brand-name">Learning Path <span>· step-by-step roadmaps</span></div>
+            <div className="brand-name">Learning Path <em>a field manual</em></div>
           </div>
 
           <div className="topbar-right">
@@ -102,14 +102,15 @@ export default function App() {
 
             <section id="paths" className="section">
               <div className="container">
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                  <span className="eyebrow" style={{ alignSelf: 'flex-start' }}>
-                    <span className="dot" /> Pick a path
+                <div className="section-head">
+                  <span className="eyebrow">
+                    <span className="dot" /> The Library
                   </span>
-                  <h2>Three complete guides. Start at zero, end an engineer.</h2>
+                  <h2>Three handbooks. <span className="italic">Pick yours.</span></h2>
                   <p className="lede">
-                    Each path is a deep, step-by-step handbook — chapters, sections, key points, and
-                    click-to-expand code examples. Plus a separate 4-week sprint plan when you want structure.
+                    Each path is a long-form guide — chapters, worked examples, practice tasks,
+                    and key points. Read it like a book, expand the examples when you want code,
+                    skim the tasks when you want to test yourself.
                   </p>
                 </div>
 
@@ -127,47 +128,50 @@ export default function App() {
                 <motion.button
                   onClick={() => goPrograms(null)}
                   className="programs-banner"
-                  initial={{ opacity: 0, y: 24 }}
+                  initial={{ opacity: 0, y: 18 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-60px' }}
                   transition={{ duration: 0.55 }}
-                  whileHover={{ y: -4 }}
+                  type="button"
                 >
-                  <div className="pb-stripe" />
+                  <span className="pb-num" aria-hidden="true">04</span>
                   <div className="pb-content">
                     <div>
-                      <span className="eyebrow" style={{ background: 'transparent', border: 'none', padding: 0 }}>
-                        <span className="dot" /> Separate — for when you want a schedule
+                      <span className="eyebrow">
+                        <span className="rule" /> Separate from the paths
                       </span>
-                      <h2 style={{ marginTop: 10 }}>4-Week Sprint Plans</h2>
-                      <p className="lede" style={{ marginTop: 10 }}>
-                        Three time-boxed programs (~10 hrs/week) with weekly topics and a shippable project at the end of every week.
-                        Pick AI, Agentic, or Full-Stack — or run them back to back.
+                      <h2 style={{ marginTop: 14 }}>The <span className="italic">4-week</span> sprints</h2>
+                      <p className="lede" style={{ marginTop: 14 }}>
+                        Time-boxed programs — about ten hours a week, weekly topics, and a shippable
+                        project every Friday. Pick one track, or run them back-to-back.
                       </p>
                     </div>
                     <div className="pb-arrow" aria-hidden="true">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
                     </div>
                   </div>
                 </motion.button>
               </div>
             </section>
 
-            <section className="section-sm">
+            <section className="section">
               <div className="container">
                 <div className="how-it-works">
                   <div>
-                    <h2 style={{ fontSize: 'clamp(22px, 2.6vw, 30px)' }}>How a path works</h2>
-                    <p className="lede" style={{ marginTop: 10 }}>
-                      Read top to bottom or jump around. Every section is a self-contained mini-lesson.
+                    <span className="eyebrow"><span className="rule" /> The reading flow</span>
+                    <h2 style={{ marginTop: 18 }}>How to <span className="italic">read</span> a path</h2>
+                    <p className="lede" style={{ marginTop: 18 }}>
+                      Top to bottom, or jump around. Every section is a self-contained
+                      mini-lesson with an intro, key points, examples you can expand, and
+                      practice tasks at the end.
                     </p>
                   </div>
                   <ol className="how-list">
                     {[
-                      ['Read the intro', 'Each section opens with the why before the how.'],
-                      ['Skim the key points', 'A 30-second summary of what you should walk away knowing.'],
-                      ['Expand the examples', '2–3 real, copy-paste-able examples per section. Click to open the code.'],
-                      ['Run the interview prep', 'Question → hint → answer. Say the answer out loud before revealing.']
+                      ['Read the intro', 'Each section opens with the why before the how — a paragraph, no slide deck.'],
+                      ['Scan the key points', 'A 30-second summary of what to walk away knowing.'],
+                      ['Expand the examples', 'Two or three worked examples per section. Click to open the code.'],
+                      ['Try the practice tasks', 'A short prompt at the end of every section. Solution hides inside a button.']
                     ].map(([title, body], i) => (
                       <li key={i}>
                         <span className="step-num">{String(i + 1).padStart(2, '0')}</span>

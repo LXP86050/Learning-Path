@@ -6,11 +6,15 @@ import InterviewPrep from './InterviewPrep.jsx'
 export default function PathDetail({ path, prep, onBack, onOpenProgram }) {
   const [tab, setTab] = useState('guide')
 
+  // Italicise the last word of the title for the headline
+  const titleParts = path.title.split(' ')
+  const last = titleParts.pop()
+
   return (
     <section className="section-sm">
       <div className="container">
         <button className="back-link" onClick={onBack}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
           All paths
         </button>
 
@@ -22,28 +26,24 @@ export default function PathDetail({ path, prep, onBack, onOpenProgram }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
             >
-              <span className="dot" /> {path.stats.duration} · {path.stats.level}
+              <span className="rule" /> {path.stats.duration} · {path.stats.level}
             </motion.div>
+
             <motion.h1
-              style={{ marginTop: 18, fontSize: 'clamp(34px, 5vw, 60px)' }}
+              style={{ marginTop: 22 }}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.05 }}
             >
-              <span
-                style={{
-                  backgroundImage: `linear-gradient(120deg, ${path.color[0]}, ${path.color[1]})`,
-                  WebkitBackgroundClip: 'text',
-                  backgroundClip: 'text',
-                  color: 'transparent'
-                }}
-              >
-                {path.title}
+              {titleParts.join(' ')}{' '}
+              <span className="italic" style={{ color: path.color[0] }}>
+                {last}
               </span>
             </motion.h1>
+
             <motion.p
               className="lede"
-              style={{ marginTop: 18 }}
+              style={{ marginTop: 24 }}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.1 }}
@@ -55,37 +55,31 @@ export default function PathDetail({ path, prep, onBack, onOpenProgram }) {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.15 }}
-              style={{ marginTop: 22, display: 'flex', gap: 12, flexWrap: 'wrap' }}
+              style={{ marginTop: 28, display: 'flex', gap: 10, flexWrap: 'wrap' }}
             >
               <button
-                className="btn btn-primary"
+                className="btn btn-ghost"
                 onClick={() => onOpenProgram(path.id)}
-                style={{ background: `linear-gradient(135deg, ${path.color[0]}, ${path.color[1]})` }}
               >
                 See the 4-week sprint
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
               </button>
             </motion.div>
           </div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
+            className="stat-card"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.15 }}
-            style={{
-              padding: 22,
-              border: '1px solid var(--border)',
-              borderRadius: 'var(--radius)',
-              background: 'var(--surface)'
-            }}
           >
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+            <div className="stat-grid">
               <Stat label="Read time" value={path.stats.duration} />
               <Stat label="Examples" value={`${path.stats.examples}+`} />
               <Stat label="Chapters" value={String(path.chapters.length)} />
               <Stat label="Level" value={path.stats.level} />
             </div>
-            <div style={{ marginTop: 18, display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            <div className="stat-card-tags">
               {path.tags.map(t => <span key={t} className="tag">{t}</span>)}
             </div>
           </motion.div>
@@ -118,9 +112,9 @@ export default function PathDetail({ path, prep, onBack, onOpenProgram }) {
         <AnimatePresence mode="wait">
           <motion.div
             key={tab}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
+            exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.3 }}
           >
             {tab === 'guide' ? (
@@ -137,9 +131,9 @@ export default function PathDetail({ path, prep, onBack, onOpenProgram }) {
 
 function Stat({ label, value }) {
   return (
-    <div>
-      <div style={{ fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-dim)' }}>{label}</div>
-      <div style={{ fontWeight: 600, marginTop: 4, color: 'var(--text)' }}>{value}</div>
+    <div className="stat-item">
+      <div className="stat-label">{label}</div>
+      <div className="stat-value">{value}</div>
     </div>
   )
 }
