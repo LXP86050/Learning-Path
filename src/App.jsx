@@ -204,12 +204,6 @@ export default function App() {
           </motion.main>
         )}
       </AnimatePresence>
-
-      <footer className="footer">
-        <div className="container">
-          Built with React + Vite · Open source · {new Date().getFullYear()}
-        </div>
-      </footer>
     </div>
   )
 }
