@@ -444,14 +444,31 @@ h3 { font-size: 20px; font-weight: 600; }
   flex-direction: column;
   gap: 10px;
 }
+.topic-row {
+  border-radius: 10px;
+  transition: background var(--transition);
+}
+.topic-row.open { background: var(--surface); }
+
 .topic {
   display: flex;
   align-items: flex-start;
   gap: 12px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
   font-size: 14px;
-  color: var(--text-soft);
   line-height: 1.5;
+  text-align: left;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background var(--transition);
 }
+.topic:not([disabled]):hover { background: var(--surface); }
+.topic[disabled] { cursor: default; }
 .topic .bullet {
   flex-shrink: 0;
   margin-top: 6px;
@@ -459,6 +476,25 @@ h3 { font-size: 20px; font-weight: 600; }
   height: 8px;
   border-radius: 2px;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+.topic-text {
+  flex: 1;
+  min-width: 0;
+}
+.topic-chev {
+  flex-shrink: 0;
+  display: inline-flex;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+.topic-detail {
+  margin-left: 30px;
+}
+.topic-detail-inner {
+  padding: 4px 10px 14px 0;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--text-soft);
 }
 .week-card .project {
   margin-top: 22px;
