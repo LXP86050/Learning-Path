@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import WeekProgram from './WeekProgram.jsx'
+import GuideContent from './GuideContent.jsx'
 import InterviewPrep from './InterviewPrep.jsx'
 
-export default function PathDetail({ path, prep, onBack }) {
-  const [tab, setTab] = useState('program')
+export default function PathDetail({ path, prep, onBack, onOpenProgram }) {
+  const [tab, setTab] = useState('guide')
 
   return (
     <section className="section-sm">
@@ -50,6 +50,22 @@ export default function PathDetail({ path, prep, onBack }) {
             >
               {path.summary}
             </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.15 }}
+              style={{ marginTop: 22, display: 'flex', gap: 12, flexWrap: 'wrap' }}
+            >
+              <button
+                className="btn btn-primary"
+                onClick={() => onOpenProgram(path.id)}
+                style={{ background: `linear-gradient(135deg, ${path.color[0]}, ${path.color[1]})` }}
+              >
+                See the 4-week sprint
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+              </button>
+            </motion.div>
           </div>
 
           <motion.div
@@ -64,9 +80,9 @@ export default function PathDetail({ path, prep, onBack }) {
             }}
           >
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
-              <Stat label="Duration" value={path.stats.duration} />
-              <Stat label="Effort" value={path.stats.hours} />
-              <Stat label="Projects" value={`${path.stats.projects} shipped`} />
+              <Stat label="Read time" value={path.stats.duration} />
+              <Stat label="Examples" value={`${path.stats.examples}+`} />
+              <Stat label="Chapters" value={String(path.chapters.length)} />
               <Stat label="Level" value={path.stats.level} />
             </div>
             <div style={{ marginTop: 18, display: 'flex', flexWrap: 'wrap', gap: 8 }}>
@@ -77,7 +93,7 @@ export default function PathDetail({ path, prep, onBack }) {
 
         <div className="tabs" role="tablist">
           {[
-            { id: 'program', label: '4-Week Program' },
+            { id: 'guide', label: 'Complete Guide' },
             { id: 'interview', label: 'Interview Prep' }
           ].map(t => (
             <button
@@ -87,7 +103,13 @@ export default function PathDetail({ path, prep, onBack }) {
               className={`tab ${tab === t.id ? 'active' : ''}`}
               onClick={() => setTab(t.id)}
             >
-              {tab === t.id && <motion.span layoutId="tab-pill" className="tab-pill" transition={{ type: 'spring', stiffness: 500, damping: 36 }} />}
+              {tab === t.id && (
+                <motion.span
+                  layoutId="path-tab-pill"
+                  className="tab-pill"
+                  transition={{ type: 'spring', stiffness: 500, damping: 36 }}
+                />
+              )}
               {t.label}
             </button>
           ))}
@@ -101,10 +123,10 @@ export default function PathDetail({ path, prep, onBack }) {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.3 }}
           >
-            {tab === 'program' ? (
-              <WeekProgram weeks={path.weeks} accent={path.color} />
+            {tab === 'guide' ? (
+              <GuideContent chapters={path.chapters} accent={path.color} />
             ) : (
-              <InterviewPrep questions={prep} />
+              <InterviewPrep questions={prep} accent={path.color} />
             )}
           </motion.div>
         </AnimatePresence>

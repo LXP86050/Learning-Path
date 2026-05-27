@@ -10,13 +10,13 @@ const item = {
 }
 
 const stats = [
-  { num: '3', lbl: 'Paths' },
-  { num: '4 wk', lbl: 'Per program' },
-  { num: '18+', lbl: 'Real projects' },
+  { num: '3', lbl: 'Deep paths' },
+  { num: '100+', lbl: 'Examples' },
+  { num: '4 wk', lbl: 'Sprint plans' },
   { num: '24', lbl: 'Interview Qs' }
 ]
 
-export default function Hero({ onStart }) {
+export default function Hero({ onStart, onPrograms }) {
   return (
     <section className="hero">
       <div className="container">
@@ -28,23 +28,23 @@ export default function Hero({ onStart }) {
           <motion.h1 variants={item} style={{ marginTop: 18 }}>
             From <span className="grad">zero</span> to engineer.
             <br />
-            One animated path at a time.
+            One step-by-step path at a time.
           </motion.h1>
 
           <motion.p variants={item} className="lede" style={{ marginTop: 22 }}>
-            Three guided tracks — AI Engineer, Agentic Engineer, and Full-Stack Developer.
-            Each one starts at the absolute basics, ships a real project every week, and ends
-            with a complete interview-prep deck. No fluff. No video bingeing. Just momentum.
+            Three from-scratch guides — AI Engineer, Agentic Engineer, and Full-Stack Developer.
+            Each path is a complete handbook with chapters, sections, and click-to-expand code
+            examples. Want structure? There\'s a separate 4-week sprint plan for each track too.
           </motion.p>
 
           <motion.div variants={item} className="hero-cta">
             <button className="btn btn-primary" onClick={onStart}>
-              Explore the paths
+              Pick a path
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
             </button>
-            <a className="btn btn-ghost" href="#paths">
-              See the 4-week plans
-            </a>
+            <button className="btn btn-ghost" onClick={onPrograms}>
+              4-Week Sprint Plans
+            </button>
           </motion.div>
 
           <motion.div variants={item} className="stat-row">

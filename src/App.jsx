@@ -5,12 +5,15 @@ import ThemeToggle from './components/ThemeToggle.jsx'
 import Hero from './components/Hero.jsx'
 import PathCard from './components/PathCard.jsx'
 import PathDetail from './components/PathDetail.jsx'
-import { paths, interviewPrep } from './data/paths.js'
+import ProgramsPage from './components/ProgramsPage.jsx'
+import { paths, interviewPrep } from './data/index.js'
 
 function parseHash() {
   if (typeof window === 'undefined') return { route: 'home' }
   const h = window.location.hash.replace(/^#\/?/, '')
   if (h.startsWith('path/')) return { route: 'path', id: h.slice(5) }
+  if (h.startsWith('programs/')) return { route: 'programs', id: h.slice(9) }
+  if (h === 'programs') return { route: 'programs', id: null }
   return { route: 'home' }
 }
 
@@ -29,6 +32,7 @@ export default function App() {
 
   const goHome = () => { window.location.hash = '' }
   const goPath = (pid) => { window.location.hash = `/path/${pid}` }
+  const goPrograms = (pid) => { window.location.hash = pid ? `/programs/${pid}` : '/programs' }
   const scrollToPaths = () => {
     document.getElementById('paths')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
@@ -45,9 +49,19 @@ export default function App() {
           <div className="brand" onClick={goHome} role="link" tabIndex={0}
                onKeyDown={(e) => { if (e.key === 'Enter') goHome() }}>
             <div className="brand-mark">L</div>
-            <div className="brand-name">Learning Path <span>· animated roadmaps</span></div>
+            <div className="brand-name">Learning Path <span>· step-by-step roadmaps</span></div>
           </div>
-          <ThemeToggle />
+
+          <div className="topbar-right">
+            <button
+              className="nav-link"
+              onClick={() => goPrograms(null)}
+              aria-current={route === 'programs' ? 'page' : undefined}
+            >
+              4-Week Sprints
+            </button>
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 
@@ -60,7 +74,7 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
           >
-            <Hero onStart={scrollToPaths} />
+            <Hero onStart={scrollToPaths} onPrograms={() => goPrograms(null)} />
 
             <section id="paths" className="section">
               <div className="container">
@@ -68,10 +82,10 @@ export default function App() {
                   <span className="eyebrow" style={{ alignSelf: 'flex-start' }}>
                     <span className="dot" /> Pick a path
                   </span>
-                  <h2>Three roadmaps. Same promise: start from zero, ship something real.</h2>
+                  <h2>Three complete guides. Start at zero, end an engineer.</h2>
                   <p className="lede">
-                    Each path is a focused 4-week program — daily-sized lessons, weekly projects, and an
-                    interview-prep deck. Choose the one that matches where you want to be in a month.
+                    Each path is a deep, step-by-step handbook — chapters, sections, key points, and
+                    click-to-expand code examples. Plus a separate 4-week sprint plan when you want structure.
                   </p>
                 </div>
 
@@ -83,56 +97,60 @@ export default function App() {
               </div>
             </section>
 
+            {/* Featured: 4-Week Sprints — separate from the paths */}
             <section className="section-sm">
               <div className="container">
-                <div
-                  style={{
-                    padding: '32px 28px',
-                    borderRadius: 'var(--radius)',
-                    border: '1px solid var(--border)',
-                    background: 'var(--surface)',
-                    display: 'grid',
-                    gridTemplateColumns: '1.4fr 1fr',
-                    gap: 32,
-                    alignItems: 'center'
-                  }}
-                  className="cta-card"
+                <motion.button
+                  onClick={() => goPrograms(null)}
+                  className="programs-banner"
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 0.55 }}
+                  whileHover={{ y: -4 }}
                 >
+                  <div className="pb-stripe" />
+                  <div className="pb-content">
+                    <div>
+                      <span className="eyebrow" style={{ background: 'transparent', border: 'none', padding: 0 }}>
+                        <span className="dot" /> Separate — for when you want a schedule
+                      </span>
+                      <h2 style={{ marginTop: 10 }}>4-Week Sprint Plans</h2>
+                      <p className="lede" style={{ marginTop: 10 }}>
+                        Three time-boxed programs (~10 hrs/week) with weekly topics and a shippable project at the end of every week.
+                        Pick AI, Agentic, or Full-Stack — or run them back to back.
+                      </p>
+                    </div>
+                    <div className="pb-arrow" aria-hidden="true">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                    </div>
+                  </div>
+                </motion.button>
+              </div>
+            </section>
+
+            <section className="section-sm">
+              <div className="container">
+                <div className="how-it-works">
                   <div>
-                    <h2 style={{ fontSize: 'clamp(22px, 2.6vw, 30px)' }}>How each path works</h2>
+                    <h2 style={{ fontSize: 'clamp(22px, 2.6vw, 30px)' }}>How a path works</h2>
                     <p className="lede" style={{ marginTop: 10 }}>
-                      Four weeks. Five themes per week. One project to ship at the weekend.
-                      Finish with eight interview questions you can actually defend.
+                      Read top to bottom or jump around. Every section is a self-contained mini-lesson.
                     </p>
                   </div>
-                  <ol style={{ display: 'grid', gap: 12, margin: 0, padding: 0, listStyle: 'none', counterReset: 'step' }}>
+                  <ol className="how-list">
                     {[
-                      'Read the week brief — it sets the mission and what you should be able to do by Sunday.',
-                      'Work through the five topics — bite-sized, with a recommended hands-on exercise each.',
-                      'Ship the weekend project — small, real, deployable. Commit it to GitHub.',
-                      'Run the interview deck — flip the cards, say the answer out loud, then check.'
-                    ].map((step, i) => (
-                      <li
-                        key={i}
-                        style={{
-                          display: 'grid',
-                          gridTemplateColumns: '36px 1fr',
-                          alignItems: 'start',
-                          gap: 14,
-                          fontSize: 14,
-                          color: 'var(--text-soft)',
-                          lineHeight: 1.55
-                        }}
-                      >
-                        <span style={{
-                          width: 30, height: 30, borderRadius: 8,
-                          background: 'var(--surface-strong)',
-                          border: '1px solid var(--border-strong)',
-                          display: 'grid', placeItems: 'center',
-                          fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700,
-                          color: 'var(--text)'
-                        }}>{String(i + 1).padStart(2, '0')}</span>
-                        {step}
+                      ['Read the intro', 'Each section opens with the why before the how.'],
+                      ['Skim the key points', 'A 30-second summary of what you should walk away knowing.'],
+                      ['Expand the examples', '2–3 real, copy-paste-able examples per section. Click to open the code.'],
+                      ['Run the interview prep', 'Question → hint → answer. Say the answer out loud before revealing.']
+                    ].map(([title, body], i) => (
+                      <li key={i}>
+                        <span className="step-num">{String(i + 1).padStart(2, '0')}</span>
+                        <div>
+                          <div className="step-title">{title}</div>
+                          <div className="step-body">{body}</div>
+                        </div>
                       </li>
                     ))}
                   </ol>
@@ -150,7 +168,12 @@ export default function App() {
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.4 }}
           >
-            <PathDetail path={activePath} prep={interviewPrep[activePath.id]} onBack={goHome} />
+            <PathDetail
+              path={activePath}
+              prep={interviewPrep[activePath.id]}
+              onBack={goHome}
+              onOpenProgram={goPrograms}
+            />
           </motion.main>
         )}
 
@@ -164,8 +187,20 @@ export default function App() {
           >
             <h2>Path not found</h2>
             <p className="lede" style={{ marginTop: 12 }}>
-              That path doesn't exist (yet). <button className="btn btn-ghost" onClick={goHome} style={{ marginLeft: 8 }}>Back to all paths</button>
+              That path doesn\'t exist (yet). <button className="btn btn-ghost" onClick={goHome} style={{ marginLeft: 8 }}>Back to all paths</button>
             </p>
+          </motion.main>
+        )}
+
+        {route === 'programs' && (
+          <motion.main
+            key={`programs-${id || 'all'}`}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.4 }}
+          >
+            <ProgramsPage onBack={goHome} initialTrack={id} />
           </motion.main>
         )}
       </AnimatePresence>
